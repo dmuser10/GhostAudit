@@ -1,0 +1,28 @@
+# Dependencies and build output
+node_modules/
+dist/
+.vercel/
+
+# Secrets: never commit real keys, passwords or connection strings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials*.json
+service-account*.json
+
+# Local tooling (Claude Code hooks and settings contain local paths)
+.claude/
+
+# Logs and OS junk
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Local archives
+ghostaudit 2.zip

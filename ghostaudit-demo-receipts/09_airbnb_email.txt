@@ -1,0 +1,14 @@
+From: Airbnb <automated@airbnb.com>
+Subject: Your receipt from Airbnb
+Date: Oct 4, 2026
+
+Receipt ID: RCKXJ4M2PQ
+Booking for 2 nights, Melbourne CBD (client workshop)
+
+$135.00 x 2 nights      $270.00
+Cleaning fee            $25.00
+Service fee             $15.00
+
+Total (USD)             $310.00
+
+Charged to Visa ending 4242

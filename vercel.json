@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60,
+      "includeFiles": "{node_modules/tesseract.js-core/**,node_modules/@tesseract.js-data/eng/package.json,node_modules/@tesseract.js-data/eng/4.0.0_best_int/**,node_modules/pdf-parse/dist/pdf-parse/cjs/pdf.worker.mjs,node_modules/@napi-rs/**}"
+    }
+  }
+}

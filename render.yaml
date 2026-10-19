@@ -1,0 +1,21 @@
+# Render Blueprint: one free web service running the Express API, which also
+# serves the built React app. In Render: New > Blueprint > pick this repo.
+services:
+  - type: web
+    name: ghostaudit
+    runtime: node
+    plan: free
+    # Closest Render region to Australia.
+    region: singapore
+    # Vite is a dev dependency, so install dev deps for the build.
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Supabase pooler connection string with the database password filled in.
+      # Render asks for it when the Blueprint is created; it is never stored in git.
+      - key: DATABASE_URL
+        sync: false

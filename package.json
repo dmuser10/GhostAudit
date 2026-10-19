@@ -1,0 +1,35 @@
+{
+  "name": "ghostaudit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-first expense auditing for small teams",
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"npm:server:dev\" \"npm:client:dev\"",
+    "server:dev": "nodemon --watch server --ignore server/uploads --ignore server/test.js server/index.js",
+    "client:dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "start": "node server/index.js --production",
+    "test": "node --test server/test.js"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "lucide-react": "^0.468.0",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^2.4.5",
+    "pg": "^8.13.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9",
+    "vite": "^6.0.7"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}
