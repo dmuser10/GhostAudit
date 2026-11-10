@@ -22,13 +22,15 @@ On start the server creates its tables in a `ghostaudit` schema (override with `
 
 Receipt files are stored in the `Receipts` table and served from `/api/receipts/:id`, so the app needs no disk. That table counts toward Supabase's 500 MB free database, so the browser shrinks large photos before upload (to about 4.5 megapixels as a JPEG, typically under 1 MB; a 20 MB test photo became 0.44 MB and was still read correctly). PDFs and other files are sent as they are, up to 10 MB.
 
-### Deploy (Render)
+### Deploy (Vercel)
 
-`render.yaml` is a Render Blueprint: one free web service that runs `npm ci --include=dev && npm run build`, then `npm start` (the Express server, which also serves the built app). In Render: **New → Blueprint**, pick this repo, and paste `DATABASE_URL` when asked (optionally add `ANTHROPIC_API_KEY` later under Environment). Every push to `main` redeploys.
+Live: **https://ghostaudit-au.vercel.app/**
 
-Free plan limits to keep in mind: the service sleeps after about 15 minutes without traffic (the next visit takes 30–60 s to wake it), it has 512 MB of memory (GhostAudit peaks around 150 MB), and build minutes are limited per month. So push finished changes, not every edit. This repo's Claude Code hooks commit locally after each edit and push once at the end of each turn.
+The app is hosted on Vercel. `vercel.json` builds the React app with Vite (`npm run build` → `dist/`) and routes every `/api/*` request to one serverless function, `api/index.js`, which runs the Express API (up to 60 s per request, with the Tesseract OCR and PDF files bundled in). To set it up: import this repo in Vercel, add `DATABASE_URL` under **Settings → Environment Variables** (optionally `ANTHROPIC_API_KEY` for Claude extraction), and deploy. Every push to `main` redeploys.
 
-`vercel.json` and `api/index.js` are kept so the app can still run on Vercel as a serverless function, but note Vercel's Hobby limit of 100 deployments a day.
+Keep in mind the Hobby plan's limit of 100 deployments a day, so push finished changes, not every edit. This repo's Claude Code hooks commit locally after each edit and push once at the end of each turn. Request bodies on Vercel are capped at about 4.5 MB, which is why the browser shrinks photos before upload.
+
+`render.yaml` is kept as an alternative: a Render Blueprint that runs the same app as one long-running Express server (**New → Blueprint** in Render, then paste `DATABASE_URL`).
 
 Run the test suite (26 end-to-end tests against the real API, no API key needed). Each run creates a throwaway `ghostaudit_test_*` schema in the `DATABASE_URL` database and drops it afterwards:
 
