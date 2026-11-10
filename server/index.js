@@ -709,8 +709,10 @@ if (PRODUCTION) {
 app.use((err, _req, res, _next) => {
   if (err.code === 'LIMIT_FILE_SIZE') return res.status(400).json({ error: `Receipt is larger than ${MAX_UPLOAD_MB} MB.` });
   if (err.name === 'MulterError' || err.status === 400) return res.status(400).json({ error: err.message });
+  // Full details go to the server log only: database and driver errors can name the
+  // Supabase host, database user or schema, which shouldn't reach the browser.
   console.error(err);
-  res.status(500).json({ error: `Server error: ${err.message || 'request failed'}` });
+  res.status(500).json({ error: 'Server error: something went wrong. Please try again.' });
 });
 
 if (require.main === module) {
