@@ -46,7 +46,7 @@ function ready() {
 }
 
 const app = express();
-// Render (and most hosts) sit behind one proxy: trust it for the client IP and HTTPS,
+// Vercel (and most hosts) sit behind one proxy: trust it for the client IP and HTTPS,
 // so sign-in rate limits see real IPs and the session cookie is marked Secure.
 app.set('trust proxy', 1);
 // No CORS: the app and API share one origin, and the session cookie is SameSite=Lax.
