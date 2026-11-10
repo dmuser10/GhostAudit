@@ -164,8 +164,9 @@ async function handleClaim(req, res, { text, file }) {
     res.status(201).json({ ...parseRow(expense), extracted_text: fields.raw_text });
   } catch (e) {
     if (receiptId) await db.run('DELETE FROM Receipts WHERE id=?', [receiptId]).catch(() => {});
-    // Postgres errors carry a 5-character SQLSTATE code; those are server faults, not bad input.
-    if (typeof e.code === 'string' && /^[0-9A-Z]{5}$/.test(e.code)) throw e;
+    // Postgres errors (5-character SQLSTATE) and system errors (ECONNREFUSED, ENOTFOUND...)
+    // carry a code; those are server faults, not bad input, and their text can name the host.
+    if (typeof e.code === 'string' && /^[0-9A-Z_]{5,}$/.test(e.code)) throw e;
     res.status(400).json({ error: e.message || 'Could not process this receipt.' });
   }
 }
